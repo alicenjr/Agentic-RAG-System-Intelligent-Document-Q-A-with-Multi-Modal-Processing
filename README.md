@@ -146,49 +146,26 @@ npm run dev
 
 ## 🏗️ How It Works
 
-```
-┌─────────────┐
-│  PDF Upload │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────────────────────────────┐
-│  Extract → Chunk → Embed → Index   │
-│  (Text, Images, Tables)             │
-└──────┬──────────────────────────────┘
-       │
-       ▼
-┌─────────────┐      ┌──────────────┐
-│  OpenSearch │      │   Ollama     │
-│  (Storage)  │◄─────│ (Embeddings) │
-└──────┬──────┘      └──────────────┘
-       │
-       │ User Query
-       ▼
-┌─────────────────────────────────────┐
-│  Query Enhancement                  │
-│         │                           │
-│         ├─► Hybrid Search ──┐       │
-│         │                   │       │
-│         └─► Web Search ─────┤       │
-│                             ▼       │
-│                    Summarize & Merge│
-│                             │       │
-│                             ▼       │
-│                    Quality Check    │
-│                             │       │
-│                    ┌────────┴──┐   │
-│                    │ Approved?  │   │
-│                    └────┬───────┘   │
-│                         │           │
-│                    ┌────┴────┐     │
-│                    │  Yes    │ No  │
-│                    └────┬────┘     │
-│                         │          │
-│                         ▼          │
-│                    Final Answer    │
-└─────────────────────────────────────┘
-```
+<div align="center">
+
+![Agentic RAG Workflow](image_2.png)
+
+*Complete workflow diagram showing query enhancement, parallel retrieval, summarization, and quality feedback loops*
+
+</div>
+
+### Workflow Overview
+
+The system follows an intelligent multi-step process:
+
+1. **🔍 Query Enhancement** - Improves user queries for better retrieval
+2. **⚡ Parallel Retrieval** - Simultaneously searches:
+   - Documents via hybrid search (keyword + semantic)
+   - Web via Serper API
+3. **📝 Summarization** - Creates concise summaries from both sources
+4. **🔄 Merging** - Combines document and web knowledge intelligently
+5. **✅ Quality Rating** - Evaluates answer quality (approved/rejected)
+6. **🔁 Feedback Loop** - Re-retrieves if quality is rejected, ensuring optimal answers
 
 ---
 
