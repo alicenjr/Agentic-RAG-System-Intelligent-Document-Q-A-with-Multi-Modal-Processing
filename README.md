@@ -1,17 +1,17 @@
 <div align="center">
 
-# 🤖 Agentic RAG System
+# 📚 Smart Document Assistant
 
-**Intelligent Document Q&A with Multi-Modal Processing**
+**Multi-Modal RAG with Hybrid Search & Web Integration**
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18+-61dafb.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6+-3178c6.svg)](https://www.typescriptlang.org/)
 
-*A powerful Retrieval-Augmented Generation system that transforms PDFs into intelligent knowledge bases*
+*An advanced Retrieval-Augmented Generation system that transforms PDFs into an intelligent, searchable knowledge base with web-augmented answers*
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [API](#-api-reference)
+[Features](#-features) • [Quick Start](#-quick-start) • [How It Works](#️-how-it-works) • [API](#-api-reference)
 
 </div>
 
@@ -38,17 +38,19 @@
 | 📄 **PDF Processing** | 🔍 **Hybrid Search** (Keyword + Semantic) |
 | 🖼️ **Image Extraction** | 🌐 **Web Search Integration** |
 | 📊 **Table Analysis** | 💬 **Conversation Memory** |
-| 🤖 **Agentic Workflows** | ⚡ **Real-time Responses** |
+| 🛠️ **Tool Integration** | ⚡ **Real-time Streaming** |
 
 </div>
 
 ### What Makes It Special
 
-- **🎨 Multi-Modal Processing**: Handles text, images, and tables from PDFs
-- **🧠 Smart Chunking**: Semantic understanding of document structure
-- **🔄 Quality Assurance**: Automatic answer rating and feedback loops
-- **🌓 Modern UI**: Beautiful React interface with dark mode
-- **⚡ Fast & Scalable**: OpenSearch backend with vector search
+- **🎨 Multi-Modal Processing**: Handles text, images, and tables from PDFs with AI-powered captioning
+- **🔍 Hybrid Search**: Combines keyword matching and semantic vector search for optimal retrieval
+- **🌐 Web-Augmented Answers**: Integrates real-time web search via Serper API when document knowledge is insufficient
+- **🔄 Quality Assurance**: Automatic answer rating with intelligent retry mechanism
+- **🧠 Smart Workflow**: Query enhancement, parallel retrieval, summarization, and answer merging
+- **🌓 Modern UI**: Beautiful React interface with dark mode and streaming responses
+- **⚡ Fast & Scalable**: OpenSearch backend with efficient vector indexing
 
 ---
 
@@ -148,24 +150,45 @@ npm run dev
 
 <div align="center">
 
-![Agentic RAG Workflow](image_2.png)
+![RAG Workflow](image_2.png)
 
-*Complete workflow diagram showing query enhancement, parallel retrieval, summarization, and quality feedback loops*
+*Complete workflow: query enhancement → parallel retrieval → summarization → merging → quality rating*
 
 </div>
 
-### Workflow Overview
+### System Architecture
 
-The system follows an intelligent multi-step process:
+The system uses a sophisticated multi-stage pipeline:
 
-1. **🔍 Query Enhancement** - Improves user queries for better retrieval
-2. **⚡ Parallel Retrieval** - Simultaneously searches:
-   - Documents via hybrid search (keyword + semantic)
-   - Web via Serper API
-3. **📝 Summarization** - Creates concise summaries from both sources
-4. **🔄 Merging** - Combines document and web knowledge intelligently
-5. **✅ Quality Rating** - Evaluates answer quality (approved/rejected)
-6. **🔁 Feedback Loop** - Re-retrieves if quality is rejected, ensuring optimal answers
+1. **🔍 Query Enhancement**  
+   Uses LLM to expand and clarify user queries, adding relevant keywords and context for better retrieval
+
+2. **⚡ Parallel Retrieval**  
+   Simultaneously searches two sources:
+   - **Documents**: Hybrid search (keyword + semantic) in OpenSearch vector store
+   - **Web**: Real-time search via Serper API for current information
+
+3. **📝 Dual Summarization**  
+   Creates concise, focused summaries from both document and web results independently
+
+4. **🔄 Intelligent Merging**  
+   Combines summaries into a unified answer, removing contradictions and duplicates
+
+5. **✅ Quality Rating**  
+   Evaluates the final answer quality (approved/rejected)
+
+6. **🔁 Feedback Loop**  
+   If rejected, automatically re-retrieves with adjusted parameters
+
+### Tool-Augmented Features
+
+The `agent.py` module provides additional capabilities:
+
+- **RAG Query Tool**: Main document retrieval and answer generation
+- **Web Search Tool**: Serper API integration for current information
+- **Math Tools**: Basic calculations (multiply, random addition)
+- **DateTime Tool**: Current date and time queries
+- **Streaming Support**: Real-time token-by-token responses
 
 ---
 
@@ -227,11 +250,11 @@ curl http://localhost:8000/health
 ## 📁 Project Structure
 
 ```
-langchain_tools/
+Smart-Document-Assistant/
 ├── 🚀 app.py              # FastAPI server & endpoints
-├── 🔄 workflow_2.py       # Agentic RAG workflow
-├── 🤖 agent.py            # LangChain agent with tools
-├── 📥 ingestion.py         # PDF → OpenSearch pipeline
+├── 🔄 workflow_2.py       # Multi-stage RAG workflow
+├── 🤖 agent.py            # LangChain tool-augmented agent
+├── 📥 ingestion.py        # PDF → OpenSearch pipeline
 ├── 🔍 retrieval.py        # Search (keyword/semantic/hybrid)
 ├── ✨ generation.py       # RAG response generation
 ├── 📄 chunker.py          # PDF chunking & processing
@@ -251,29 +274,30 @@ langchain_tools/
 
 ### PDF Processing Pipeline
 
-1. **📄 Partitioning** - Extract text, images, tables using `unstructured`
-2. **🖼️ Image Processing** - Generate captions with Gemini Vision
+1. **📄 Partitioning** - Extract text, images, tables using `unstructured` library
+2. **🖼️ Image Processing** - Generate captions with Gemini Vision API
 3. **📊 Table Analysis** - Extract and describe table structures
-4. **🧩 Semantic Chunking** - Create meaningful text chunks
-5. **🔢 Embedding** - Generate 768-d vectors with Ollama
-6. **💾 Indexing** - Store in OpenSearch with vector search
-
-### Agentic RAG Workflow
-
-The system uses a sophisticated multi-step workflow:
-
-1. **Query Enhancement** - Improve queries for better retrieval
-2. **Parallel Retrieval** - Search documents + web simultaneously
-3. **Summarization** - Create concise summaries from both sources
-4. **Merging** - Combine document and web knowledge
-5. **Quality Rating** - Evaluate answer quality
-6. **Feedback Loop** - Re-retrieve if quality is low
+4. **🧩 Semantic Chunking** - Create meaningful text chunks with overlap
+5. **🔢 Embedding** - Generate 768-dimensional vectors with Ollama (nomic-embed-text)
+6. **💾 Indexing** - Store in OpenSearch with vector search capabilities
 
 ### Search Methods
 
-- **🔤 Keyword Search** - Traditional text matching
-- **🧠 Semantic Search** - Vector similarity using embeddings
-- **⚡ Hybrid Search** - Best of both worlds
+- **🔤 Keyword Search**: Traditional BM25 text matching in OpenSearch
+- **🧠 Semantic Search**: Vector similarity using cosine distance (kNN search)
+- **⚡ Hybrid Search**: Combines both methods with boolean "should" queries for optimal results
+
+### Multi-Stage Workflow
+
+The `workflow_2.py` implements a LangGraph state machine with:
+
+- **Query Enhancement Node**: Expands queries with context
+- **Retrieval Node**: Fetches relevant document chunks
+- **Google Search Node**: Retrieves web results via Serper
+- **Summarization Nodes**: Condenses both document and web results
+- **Merging Node**: Combines summaries intelligently
+- **Rating Node**: Evaluates answer quality
+- **Conditional Edges**: Re-routes to retrieval if quality is low
 
 ---
 
@@ -282,53 +306,87 @@ The system uses a sophisticated multi-step workflow:
 ### Testing Components
 
 ```bash
-# Test retrieval
+# Test retrieval methods
 python retrieval.py
 
-# Test generation
+# Test generation with streaming
 python generation.py
 
-# Test workflow
-python workflow_2.py "test query"
+# Test complete workflow
+python workflow_2.py "your test query"
+
+# Test agent with tools
+python agent.py
 ```
 
 ### Frontend Development
 
 ```bash
 cd chatbot-ui
-npm run dev      # Development
+npm run dev      # Development server
 npm run build    # Production build
-npm run lint     # Code quality
+npm run lint     # Code quality checks
+npm run preview  # Preview production build
 ```
 
 ### Adding Features
 
-- **New Tools**: Add to `agent.py` tools list
-- **Workflow Nodes**: Extend `workflow_2.py` graph
-- **Search Methods**: Add functions to `retrieval.py`
+- **New Tools**: Add tool classes in `agent.py` and register in `tools` list
+- **Workflow Nodes**: Extend `workflow_2.py` StateGraph with new nodes and edges
+- **Search Methods**: Add custom retrieval functions to `retrieval.py`
+- **UI Components**: Create React components in `chatbot-ui/src/components/`
 
 ---
 
 ## ⚠️ Important Notes
 
-> **🔒 Security**: API keys are currently hardcoded. Use environment variables in production.
+> **🔒 Security Warning**: API keys are currently hardcoded in some files. Use environment variables in production!
 
-- OpenSearch index is recreated on each ingestion
-- Conversations stored in-memory (not persistent)
-- PDFs deleted after processing
-- Smalltalk detection for casual greetings
+**Known Limitations:**
+- OpenSearch index is recreated on each ingestion (no incremental updates)
+- Conversations stored in-memory only (not persistent across restarts)
+- Uploaded PDFs are deleted after processing
+- Web search requires Serper API key (limited free tier)
+
+**Best Practices:**
+- Use `.env` files for all API keys
+- Test with small PDFs first
+- Monitor OpenSearch memory usage
+- Adjust `top_k` parameter based on document size
+
+---
+
+## 🎯 Use Cases
+
+Perfect for:
+
+- 📚 **Research Assistants**: Query academic papers and research documents
+- 📋 **Document Analysis**: Extract insights from reports and manuals
+- 📊 **Data Extraction**: Pull information from tables and forms
+- 🎓 **Study Aids**: Create Q&A systems for educational materials
+- 💼 **Business Intelligence**: Analyze contracts, presentations, and documentation
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! Here's how:
+Contributions are welcome! Here's how:
 
-1. 🍴 Fork the repo
-2. 🌿 Create a feature branch
-3. ✏️ Make your changes
-4. ✅ Test thoroughly
-5. 📤 Submit a PR
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. ✏️ Make your changes and add tests
+4. ✅ Ensure all tests pass
+5. 📝 Commit your changes (`git commit -m 'Add amazing feature'`)
+6. 📤 Push to the branch (`git push origin feature/amazing-feature`)
+7. 🎉 Open a Pull Request
+
+**Areas for Contribution:**
+- Additional document formats (DOCX, PPTX, etc.)
+- More sophisticated chunking strategies
+- Additional search algorithms
+- UI/UX improvements
+- Test coverage
+- Documentation
 
 ---
 
@@ -336,24 +394,45 @@ Contributions welcome! Here's how:
 
 <div align="center">
 
-| Technology | Purpose |
-|-----------|---------|
-| [LangChain](https://www.langchain.com/) | RAG Framework |
-| [OpenSearch](https://opensearch.org/) | Vector Database |
-| [FastAPI](https://fastapi.tiangolo.com/) | Backend API |
-| [React](https://reactjs.org/) | Frontend UI |
-| [Gemini](https://deepmind.google/technologies/gemini/) | LLM & Vision |
-| [Ollama](https://ollama.ai/) | Embeddings |
-| [Unstructured](https://www.unstructured.io/) | PDF Processing |
+| Technology | Purpose | Version |
+|-----------|---------|---------|
+| [LangChain](https://www.langchain.com/) | RAG Framework & Tools | Latest |
+| [LangGraph](https://langchain-ai.github.io/langgraph/) | Workflow Orchestration | Latest |
+| [OpenSearch](https://opensearch.org/) | Vector Database & Search | 2.x |
+| [FastAPI](https://fastapi.tiangolo.com/) | Backend REST API | 0.100+ |
+| [React](https://reactjs.org/) | Frontend Framework | 18+ |
+| [Gemini](https://deepmind.google/technologies/gemini/) | LLM & Vision Processing | 2.5 Flash |
+| [Ollama](https://ollama.ai/) | Local Embeddings | nomic-embed-text |
+| [Unstructured](https://www.unstructured.io/) | PDF Parsing | Latest |
+| [Serper](https://serper.dev/) | Web Search API | Latest |
 
 </div>
 
 ---
 
+## 📜 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 🌟 Acknowledgments
+
+Special thanks to:
+- The LangChain team for the amazing RAG framework
+- OpenSearch community for the vector database
+- Anthropic for Claude (used in development)
+- Google for Gemini API
+- All contributors and users
+
+---
+
 <div align="center">
 
-**Made with ❤️ using LangChain and modern AI tools**
+**Made with ❤️ using modern AI and RAG technologies**
 
-⭐ Star this repo if you find it useful!
+⭐ **Star this repo if you find it useful!** ⭐
+
+[Report Bug](https://github.com/alicenjr/Smart-Document-Assistant-with-Hybrid-Search-and-Web-Integration/issues) • [Request Feature](https://github.com/alicenjr/Smart-Document-Assistant-with-Hybrid-Search-and-Web-Integration/issues)
 
 </div>
